@@ -1,0 +1,24 @@
+name: MineableOres
+version: '${project.version}'
+main: org.achymake.mineableores.MineableOres
+api-version: '1.21'
+prefix: '${project.name}'
+load: STARTUP
+author: AchyMake
+description: '${project.description}'
+commands:
+  mineableores:
+    description: reload command
+    permission: mineableores.command.mineableores
+    aliases:
+      - mo
+permissions:
+  mineableores.command.mineableores:
+    description: reload command
+    default: op
+  mineableores.event.join.update:
+    description: allows to collect ore
+    default: op
+  mineableores.event.block-break.collect:
+    description: allows to collect ore
+    default: op
