@@ -35,7 +35,7 @@ public class BlockDropItem implements Listener {
         Block block = event.getBlock();
         if (!getOres().containsKey(event.getBlock().getLocation()))return;
         if (!getConfig().getStringList("worlds").contains(block.getWorld().getName()))return;
-        if (!getMineableOres().getConfig().getBoolean("ores." + block.getType() + ".enable"))return;
+        if (!getMineableOres().getConfig().getBoolean("ores." + getOres().get(block.getLocation()) + ".enable"))return;
         Material material = getOres().get(block.getLocation());
         if (event.isCancelled())return;
         event.getItems().forEach(item -> {
