@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -35,17 +36,22 @@ public class BlockDropItem implements Listener {
         if (!getOres().containsKey(event.getBlock().getLocation()))return;
         if (!getConfig().getStringList("worlds").contains(block.getWorld().getName()))return;
         Material material = getOres().get(block.getLocation());
-        if (event.isCancelled())return;
-        event.getItems().forEach(item -> {
-            giveItem(event.getPlayer(), item.getItemStack());
-            item.remove();
-        });
-        if (isDeepslateOre(material)) {
-            block.setType(Material.COBBLED_DEEPSLATE);
-        } else if (isNetherOre(material)) {
-            block.setType(Material.NETHERRACK);
+        if (getOres().containsKey(block.getLocation())) {
+            event.setCancelled(true);
+            event.getItems().forEach(Entity::remove);
         } else {
-            block.setType(Material.COBBLESTONE);
+            if (event.isCancelled())return;
+            event.getItems().forEach(item -> {
+                giveItem(event.getPlayer(), item.getItemStack());
+                item.remove();
+            });
+            if (isDeepslateOre(material)) {
+                block.setType(Material.COBBLED_DEEPSLATE);
+            } else if (isNetherOre(material)) {
+                block.setType(Material.NETHERRACK);
+            } else {
+                block.setType(Material.COBBLESTONE);
+            }
         }
     }
     private void giveItem(Player player, ItemStack itemStack) {
