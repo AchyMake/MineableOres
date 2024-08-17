@@ -35,7 +35,6 @@ public class BlockBreak implements Listener {
         Block block = event.getBlock();
         Player player = event.getPlayer();
         if (!getConfig().getStringList("worlds").contains(block.getWorld().getName()))return;
-        if (player.isOp())return;
         if (!getMineableOres().getConfig().getBoolean("ores." + block.getType() + ".enable"))return;
         if (!player.hasPermission("mineableores.event.block-break.collect"))return;
         if (!player.getGameMode().equals(GameMode.SURVIVAL))return;
