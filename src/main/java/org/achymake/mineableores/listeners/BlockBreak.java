@@ -40,9 +40,13 @@ public class BlockBreak implements Listener {
         if (!player.getGameMode().equals(GameMode.SURVIVAL))return;
         ItemStack pickAxe = player.getInventory().getItemInMainHand();
         if (!Tag.ITEMS_PICKAXES.isTagged(pickAxe.getType()))return;
-        if (event.isCancelled())return;
-        getOres().put(block.getLocation(), block.getType());
-        startScheduler(block);
+        if (getOres().containsKey(block.getLocation())) {
+            event.setCancelled(true);
+        } else {
+            if (event.isCancelled())return;
+            getOres().put(block.getLocation(), block.getType());
+            startScheduler(block);
+        }
     }
     public void startScheduler(Block block) {
         Location location = block.getLocation();
